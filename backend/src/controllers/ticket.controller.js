@@ -96,37 +96,41 @@ exports.updateTicket = async (req, res) => {
 exports.updateStatus = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nuevoEstado } = req.body;
+        // CORRECCIÓN 1: Extraemos 'estado' tal como lo manda el frontend y Zod
+        const { estado } = req.body; 
 
-        if (![1, 2, 3].includes(nuevoEstado)) {
-            return res.status(400).json({ message: "Estado inválido. Debe ser 1, 2 o 3." });
+        if (![1, 2, 3].includes(estado)) {
+            return res.status(400).json({ message: 'Estado inválido. Debe ser 1, 2 o 3.' });
         }
 
         const ticket = await ticketService.findById(id);
-        if (!ticket) return res.status(404).json({ message: "Ticket no encontrado" });
+        if (!ticket) return res.status(404).json({ message: 'Ticket no encontrado' });
 
         const proyecto = await projectService.findByIdAndUserId(ticket.proyecto_id, req.user.id);
-        if (!proyecto) return res.status(403).json({ message: "No tenés acceso a este ticket" });
+        if (!proyecto) return res.status(403).json({ message: 'No tenés acceso a este ticket' });
 
         const estadoActual = ticket.estado;
-        const diferencia = Math.abs(nuevoEstado - estadoActual);
+        const diferencia = Math.abs(estado - estadoActual);
 
         // REGLA: Solo movimientos de 1 paso
         if (diferencia !== 1) {
             return res.status(400).json({
-                message: `Movimiento inválido. No podés pasar del estado ${estadoActual} al ${nuevoEstado} directamente.`
+                message: `Movimiento inválido. No podés pasar del estado ${estadoActual} al ${estado} directamente.`
             });
         }
 
-        // REGLA: No iniciar sin responsable asignado
-        if (nuevoEstado === 2 && !ticket.asignado_a) {
+        // CORRECCIÓN 2: Comentamos esta regla temporalmente hasta que el frontend envíe usuarios
+        /*
+        if (estado === 2 && !ticket.asignado_a) {
             return res.status(400).json({
-                message: "No podés iniciar un ticket sin un responsable asignado."
+                message: 'No podés iniciar un ticket sin un responsable asignado.'
             });
         }
+        */
 
-        await ticketService.update(id, { estado: nuevoEstado });
-        res.status(200).json({ message: "Estado actualizado correctamente" });
+        // Guardamos usando la propiedad 'estado'
+        await ticketService.update(id, { estado: estado });
+        res.status(200).json({ message: 'Estado actualizado correctamente' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

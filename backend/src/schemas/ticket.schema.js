@@ -21,5 +21,11 @@ const ticketSchema = z.object({
   proyecto_id: z.number()
     .int("Debe pertenecer a un proyecto válido")
 });
+const ticketEstadoSchema = z.object({
+  estado: z.number()
+    .int()
+    .min(1)
+    .max(3)
+});
 
-module.exports = { ticketSchema };
+module.exports = { ticketSchema, ticketEstadoSchema };
