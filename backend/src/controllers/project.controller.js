@@ -63,31 +63,29 @@ exports.updateProject = async (req, res) => {
 exports.addMember = async (req, res) => {
     try {
         const { id } = req.params;
-        const { usuario_id } = req.body;
+        const { email } = req.body; 
 
-        // Verificar que el que invita tiene acceso al proyecto
         const proyecto = await projectService.findByIdAndUserId(id, req.user.id);
         if (!proyecto) {
-            return res.status(404).json({ message: "Proyecto no encontrado o sin acceso" });
+            return res.status(404).json({ message: 'Proyecto no encontrado o sin acceso' });
         }
 
-        // Verificar que el usuario a agregar existe
-        const userService = require("../service/user.service");
-        const usuarioExiste = await userService.findUserById(usuario_id);
+        const userService = require('../service/user.service');
+        const usuarioExiste = await userService.findUserByEmail(email); 
+        
         if (!usuarioExiste) {
-            return res.status(404).json({ message: "El usuario a agregar no existe" });
+            return res.status(404).json({ message: 'El usuario con ese email no existe' });
         }
 
-        await projectService.addMember(id, usuario_id);
-        res.status(200).json({ message: "Miembro agregado correctamente" });
+        await projectService.addMember(id, usuarioExiste.id);
+        res.status(200).json({ message: 'Miembro agregado correctamente' });
     } catch (error) {
-        if (error.message && error.message.includes("UNIQUE")) {
-            return res.status(400).json({ message: "El usuario ya es miembro del proyecto" });
+        if (error.message && error.message.includes('UNIQUE')) {
+            return res.status(400).json({ message: 'El usuario ya es miembro del proyecto' });
         }
-        res.status(500).json({ error: "Error al agregar miembro", detalle: error.message });
+        res.status(500).json({ error: 'Error al agregar miembro', detalle: error.message });
     }
 };
-
 // Punto 4: Listar miembros de un proyecto
 exports.getMembers = async (req, res) => {
     try {

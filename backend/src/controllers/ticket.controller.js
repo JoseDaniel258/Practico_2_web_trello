@@ -96,7 +96,6 @@ exports.updateTicket = async (req, res) => {
 exports.updateStatus = async (req, res) => {
     try {
         const { id } = req.params;
-        // CORRECCIÓN 1: Extraemos 'estado' tal como lo manda el frontend y Zod
         const { estado } = req.body; 
 
         if (![1, 2, 3].includes(estado)) {
@@ -112,23 +111,18 @@ exports.updateStatus = async (req, res) => {
         const estadoActual = ticket.estado;
         const diferencia = Math.abs(estado - estadoActual);
 
-        // REGLA: Solo movimientos de 1 paso
         if (diferencia !== 1) {
             return res.status(400).json({
                 message: `Movimiento inválido. No podés pasar del estado ${estadoActual} al ${estado} directamente.`
             });
         }
 
-        // CORRECCIÓN 2: Comentamos esta regla temporalmente hasta que el frontend envíe usuarios
-        /*
         if (estado === 2 && !ticket.asignado_a) {
             return res.status(400).json({
                 message: 'No podés iniciar un ticket sin un responsable asignado.'
             });
         }
-        */
 
-        // Guardamos usando la propiedad 'estado'
         await ticketService.update(id, { estado: estado });
         res.status(200).json({ message: 'Estado actualizado correctamente' });
     } catch (error) {

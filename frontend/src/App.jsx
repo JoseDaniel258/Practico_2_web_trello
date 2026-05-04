@@ -1,12 +1,12 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import { RegisterPage } from "./pages/RegisterPage";
 // Importación de las páginas
-import { LoginPage } from './pages/LoginPage.jsx';
-import { ProjectsPage } from './pages/ProjectsPage.jsx';
-import { BoardPage } from './pages/BoardPage.jsx';
-import { TicketDetailPage } from './pages/TicketDetailPage.jsx';
+import { LoginPage } from "./pages/LoginPage.jsx";
+import { ProjectsPage } from "./pages/ProjectsPage.jsx";
+import { BoardPage } from "./pages/BoardPage.jsx";
+import { TicketDetailPage } from "./pages/TicketDetailPage.jsx";
 
 const App = () => {
   return (
@@ -14,15 +14,15 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           {/* Ruta pública */}
-          <Route path='/login' element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
 
           {/* Rutas principales del Issue Tracker */}
-          <Route path='/proyectos' element={<ProjectsPage />} />
-          <Route path='/proyectos/:id/tablero' element={<BoardPage />} />
-          <Route path='/tickets/:id' element={<TicketDetailPage />} />
-
+          <Route path="/proyectos" element={<ProjectsPage />} />
+          <Route path="/proyectos/:id/tablero" element={<BoardPage />} />
+          <Route path="/tickets/:id" element={<TicketDetailPage />} />
+          <Route path="/registro" element={<RegisterPage />} />
           {/* Redirección por defecto si la ruta no existe */}
-          <Route path='*' element={<Navigate to='/login' replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
