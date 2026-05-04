@@ -1,7 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-// El archivo se guardará en la raíz del backend como 'database.sqlite'
 const dbPath = path.resolve(__dirname, '../../database.sqlite');
 
 const db = new sqlite3.Database(dbPath, (err) => {

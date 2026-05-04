@@ -7,8 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Al recargar la página, verificamos si ya hay un token guardado
-  useEffect(() => {
+   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       setUser({ token }); 
@@ -26,8 +25,7 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true };
     } catch (error) {
-      // Capturamos el mensaje de error que configuraste con Zod o en el controlador
-      const errorMessage = error.response?.data?.message || error.response?.data?.error || 'Error al iniciar sesión';
+       const errorMessage = error.response?.data?.message || error.response?.data?.error || 'Error al iniciar sesión';
       return { success: false, message: errorMessage };
     }
   };

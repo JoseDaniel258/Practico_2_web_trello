@@ -5,10 +5,8 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Borramos el token de seguridad
-    localStorage.removeItem('token');
-    // Redirigimos a la pantalla de login
-    navigate('/login');
+     localStorage.removeItem('token');
+     navigate('/login');
   };
 
   return (

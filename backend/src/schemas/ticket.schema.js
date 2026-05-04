@@ -6,16 +6,16 @@ const ticketSchema = z.object({
     .max(100, "El título es demasiado largo"),
     
   descripcion: z.string()
-    .min(1, "La descripción es obligatoria"), // Regla de negocio: No crear tickets sin info
+    .min(1, "La descripción es obligatoria"),  
     
   estado: z.number()
     .int()
     .min(1)
     .max(3)
-    .default(1), // 1: Pendiente, 2: En Progreso, 3: Completado
+    .default(1),  
     
   asignado_a: z.number()
-    .optional() // Puede ser nulo al inicio, pero obligatorio para "En Progreso"
+    .optional()  
     .nullable(),
     
   proyecto_id: z.number()

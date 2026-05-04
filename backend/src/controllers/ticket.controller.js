@@ -1,18 +1,15 @@
 const ticketService = require("../service/ticket.service");
 const projectService = require("../service/project.service");
 
-// 1. Crear ticket
 exports.postCreate = async (req, res) => {
     try {
         const { titulo, descripcion, proyecto_id, asignado_a } = req.body;
 
-        // Verificar que el usuario pertenece al proyecto
         const proyecto = await projectService.findByIdAndUserId(proyecto_id, req.user.id);
         if (!proyecto) {
             return res.status(403).json({ message: "No tenés acceso a este proyecto" });
         }
 
-        // Si viene asignado_a, verificar que es miembro del proyecto
         if (asignado_a) {
             const esMiembro = await projectService.isMember(proyecto_id, asignado_a);
             if (!esMiembro) {
@@ -27,12 +24,10 @@ exports.postCreate = async (req, res) => {
     }
 };
 
-// 2. Listar tickets de un proyecto (para el tablero)
 exports.getTicketsByProject = async (req, res) => {
     try {
         const { proyectoId } = req.params;
 
-        // Verificar acceso al proyecto
         const proyecto = await projectService.findByIdAndUserId(proyectoId, req.user.id);
         if (!proyecto) {
             return res.status(403).json({ message: "No tenés acceso a este proyecto" });
@@ -45,14 +40,12 @@ exports.getTicketsByProject = async (req, res) => {
     }
 };
 
-// 3. Ver detalle de un ticket
 exports.getTicketById = async (req, res) => {
     try {
         const { id } = req.params;
         const ticket = await ticketService.findById(id);
         if (!ticket) return res.status(404).json({ message: "Ticket no encontrado" });
 
-        // Verificar que el usuario tiene acceso al proyecto del ticket
         const proyecto = await projectService.findByIdAndUserId(ticket.proyecto_id, req.user.id);
         if (!proyecto) return res.status(403).json({ message: "No tenés acceso a este ticket" });
 
@@ -62,7 +55,6 @@ exports.getTicketById = async (req, res) => {
     }
 };
 
-// 4. Editar ticket (título, descripción, asignado)
 exports.updateTicket = async (req, res) => {
     try {
         const { id } = req.params;
@@ -74,10 +66,8 @@ exports.updateTicket = async (req, res) => {
         const proyecto = await projectService.findByIdAndUserId(ticket.proyecto_id, req.user.id);
         if (!proyecto) return res.status(403).json({ message: "No tenés acceso a este ticket" });
 
-        // No permitir cambiar estado por este endpoint
         delete updateData.estado;
 
-        // Si viene asignado_a, verificar que es miembro del proyecto
         if (updateData.asignado_a) {
             const esMiembro = await projectService.isMember(ticket.proyecto_id, updateData.asignado_a);
             if (!esMiembro) {
@@ -92,7 +82,6 @@ exports.updateTicket = async (req, res) => {
     }
 };
 
-// 5. Cambiar estado con reglas de flujo
 exports.updateStatus = async (req, res) => {
     try {
         const { id } = req.params;
@@ -130,7 +119,6 @@ exports.updateStatus = async (req, res) => {
     }
 };
 
-// 6. Eliminar ticket
 exports.deleteTicket = async (req, res) => {
     try {
         const { id } = req.params;

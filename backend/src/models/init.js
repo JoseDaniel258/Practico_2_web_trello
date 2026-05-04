@@ -2,7 +2,6 @@ const db = require('./db');
 
 const initDatabase = () => {
   db.serialize(() => {
-    // 1. Tabla de Usuarios
     db.run(`CREATE TABLE IF NOT EXISTS usuarios (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       nombre TEXT NOT NULL,
@@ -10,7 +9,6 @@ const initDatabase = () => {
       contrasena TEXT NOT NULL
     )`);
 
-    // 2. Tabla de Proyectos
     db.run(`CREATE TABLE IF NOT EXISTS proyectos (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       nombre TEXT NOT NULL,
@@ -20,7 +18,6 @@ const initDatabase = () => {
       FOREIGN KEY (creador_id) REFERENCES usuarios(id)
     )`);
 
-    // 3. Tabla Intermedia para Miembros del Proyecto
     db.run(`CREATE TABLE IF NOT EXISTS miembros_proyecto (
       proyecto_id INTEGER NOT NULL,
       usuario_id INTEGER NOT NULL,
@@ -29,7 +26,6 @@ const initDatabase = () => {
       FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
     )`);
 
-    // 4. Tabla de Tickets
     db.run(`CREATE TABLE IF NOT EXISTS tickets (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       titulo TEXT NOT NULL,
@@ -42,7 +38,6 @@ const initDatabase = () => {
       FOREIGN KEY (proyecto_id) REFERENCES proyectos(id) ON DELETE CASCADE
     )`);
 
-    // 5. Índices para performance
     db.run(`CREATE INDEX IF NOT EXISTS idx_tickets_proyecto ON tickets(proyecto_id)`);
     db.run(`CREATE INDEX IF NOT EXISTS idx_miembros_usuario ON miembros_proyecto(usuario_id)`);
 

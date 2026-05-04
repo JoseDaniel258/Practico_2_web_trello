@@ -1,6 +1,5 @@
 const projectService = require("../service/project.service");
 
-// Crear proyecto
 exports.postCreate = async (req, res) => {
     try {
         const { nombre, descripcion } = req.body;
@@ -16,7 +15,6 @@ exports.postCreate = async (req, res) => {
     }
 };
 
-// Listar proyectos del usuario
 exports.getProjects = async (req, res) => {
     try {
         const projects = await projectService.findAllByUserId(req.user.id);
@@ -26,7 +24,6 @@ exports.getProjects = async (req, res) => {
     }
 };
 
-// Ver detalle de un proyecto (solo si el usuario es miembro)
 exports.getProjectById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -40,14 +37,12 @@ exports.getProjectById = async (req, res) => {
     }
 };
 
-// Editar proyecto (solo si el usuario es miembro)
 exports.updateProject = async (req, res) => {
     try {
         const { id } = req.params;
         const { nombre, descripcion } = req.body;
 
-        // Verificar acceso
-        const proyecto = await projectService.findByIdAndUserId(id, req.user.id);
+         const proyecto = await projectService.findByIdAndUserId(id, req.user.id);
         if (!proyecto) {
             return res.status(404).json({ message: "Proyecto no encontrado o sin acceso" });
         }
@@ -59,7 +54,6 @@ exports.updateProject = async (req, res) => {
     }
 };
 
-// Agregar miembro al proyecto
 exports.addMember = async (req, res) => {
     try {
         const { id } = req.params;
@@ -86,13 +80,11 @@ exports.addMember = async (req, res) => {
         res.status(500).json({ error: 'Error al agregar miembro', detalle: error.message });
     }
 };
-// Punto 4: Listar miembros de un proyecto
 exports.getMembers = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Verificar que el usuario autenticado tiene acceso al proyecto
-        const proyecto = await projectService.findByIdAndUserId(id, req.user.id);
+         const proyecto = await projectService.findByIdAndUserId(id, req.user.id);
         if (!proyecto) {
             return res.status(404).json({ message: "Proyecto no encontrado o sin acceso" });
         }

@@ -1,8 +1,7 @@
 const db = require("../models/db");
 
 const projectService = {
-    // Crea el proyecto e inserta al creador como miembro
-    create: (nombre, descripcion, creadorId) => {
+     create: (nombre, descripcion, creadorId) => {
         return new Promise((resolve, reject) => {
             db.serialize(() => {
                 const queryProject = `INSERT INTO proyectos (nombre, descripcion, creador_id) VALUES (?, ?, ?)`;
@@ -19,8 +18,7 @@ const projectService = {
         });
     },
 
-    // Lista proyectos donde el usuario es miembro
-    findAllByUserId: (userId) => {
+     findAllByUserId: (userId) => {
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT p.* FROM proyectos p
@@ -33,8 +31,7 @@ const projectService = {
         });
     },
 
-    // Busca un proyecto por ID verificando que el usuario sea miembro
-    findByIdAndUserId: (proyectoId, userId) => {
+     findByIdAndUserId: (proyectoId, userId) => {
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT p.* FROM proyectos p
@@ -47,8 +44,7 @@ const projectService = {
         });
     },
 
-    // Editar proyecto
-    update: (id, data) => {
+     update: (id, data) => {
         return new Promise((resolve, reject) => {
             const { nombre, descripcion } = data;
             const query = `UPDATE proyectos SET nombre = ?, descripcion = ? WHERE id = ?`;
@@ -59,8 +55,7 @@ const projectService = {
         });
     },
 
-    // Agregar miembro al proyecto
-    addMember: (proyectoId, usuarioId) => {
+     addMember: (proyectoId, usuarioId) => {
         return new Promise((resolve, reject) => {
             const query = `INSERT INTO miembros_proyecto (proyecto_id, usuario_id) VALUES (?, ?)`;
             db.run(query, [proyectoId, usuarioId], function(err) {
@@ -70,8 +65,7 @@ const projectService = {
         });
     },
 
-    // Verifica si un usuario es miembro de un proyecto
-    isMember: (proyectoId, usuarioId) => {
+     isMember: (proyectoId, usuarioId) => {
         return new Promise((resolve, reject) => {
             const query = `SELECT 1 FROM miembros_proyecto WHERE proyecto_id = ? AND usuario_id = ?`;
             db.get(query, [proyectoId, usuarioId], (err, row) => {
@@ -81,8 +75,7 @@ const projectService = {
         });
     },
 
-    // Punto 4: Listar miembros de un proyecto
-    getMembers: (proyectoId) => {
+     getMembers: (proyectoId) => {
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT u.id, u.nombre, u.email

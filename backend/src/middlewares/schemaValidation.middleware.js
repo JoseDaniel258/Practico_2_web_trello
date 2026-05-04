@@ -3,11 +3,9 @@ const schemaValidation = (schema) => {
     const result = schema.safeParse(req.body);
     
     if (!result.success) {
-      // Imprimimos el error real en la consola del backend para descubrir al culpable
-      console.log('Error de Zod atrapado:', result.error);
+       console.log('Error de Zod atrapado:', result.error);
       
-      // Extraemos el mensaje de forma segura, usando 'issues' que es el estándar de Zod
-      const errorMessage = result.error.issues && result.error.issues.length > 0 
+       const errorMessage = result.error.issues && result.error.issues.length > 0 
         ? result.error.issues[0].message 
         : 'Error de formato en los datos enviados';
 

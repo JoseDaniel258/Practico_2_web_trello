@@ -1,8 +1,7 @@
 const db = require("../models/db");
 
 const ticketService = {
-    // 1. Crear ticket
-    create: (ticketData) => {
+     create: (ticketData) => {
         return new Promise((resolve, reject) => {
             const { titulo, descripcion, proyecto_id, asignado_a } = ticketData;
             const query = `INSERT INTO tickets (titulo, descripcion, proyecto_id, asignado_a) VALUES (?, ?, ?, ?)`;
@@ -13,8 +12,7 @@ const ticketService = {
         });
     },
 
-    // 2. Buscar ticket por ID
-    findById: (id) => {
+     findById: (id) => {
         return new Promise((resolve, reject) => {
             const query = `SELECT * FROM tickets WHERE id = ?`;
             db.get(query, [id], (err, row) => {
@@ -24,8 +22,7 @@ const ticketService = {
         });
     },
 
-    // 3. Listar tickets de un proyecto ordenados por estado (para el tablero)
-    findAllByProjectId: (projectId) => {
+     findAllByProjectId: (projectId) => {
         return new Promise((resolve, reject) => {
             const query = `SELECT * FROM tickets WHERE proyecto_id = ? ORDER BY estado ASC`;
             db.all(query, [projectId], (err, rows) => {
@@ -35,8 +32,7 @@ const ticketService = {
         });
     },
 
-    // 4. Actualizar campos del ticket dinámicamente
-    update: (id, updateData) => {
+     update: (id, updateData) => {
         return new Promise((resolve, reject) => {
             const keys = Object.keys(updateData);
             const values = Object.values(updateData);
@@ -49,8 +45,7 @@ const ticketService = {
         });
     },
 
-    // 5. Eliminar ticket
-    remove: (id) => {
+     remove: (id) => {
         return new Promise((resolve, reject) => {
             const query = `DELETE FROM tickets WHERE id = ?`;
             db.run(query, [id], function(err) {
