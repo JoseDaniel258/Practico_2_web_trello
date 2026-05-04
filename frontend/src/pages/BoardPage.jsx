@@ -301,19 +301,18 @@ export const BoardPage = () => {
           <p>Cargando tablero...</p>
         ) : (
           <div style={{ display: 'flex', gap: '2rem', marginTop: '1rem', overflowX: 'auto', paddingBottom: '1rem' }}>
-            
+  
             <div style={{ flex: 1, minWidth: '300px', background: '#ebecf0', padding: '1rem', borderRadius: '8px', minHeight: '60vh' }}>
               <h3 style={{ marginTop: 0, color: '#172b4d' }}>Pendiente</h3>
               {ticketsPorEstado(1).map((t) => (
                 <div key={t.id} style={{ background: '#fff', padding: '1rem', marginBottom: '1rem', borderRadius: '4px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <h4 style={{ margin: '0 0 0.5rem 0' }}>{t.titulo}</h4>
-                    <button onClick={() => handleEliminarTicket(t.id)} style={{ background: 'transparent', border: 'none', color: '#dc3545', cursor: 'pointer', fontWeight: 'bold' }} title='Eliminar'>X</button>
+                    <button onClick={() => handleEliminarTicket(t.id)} style={{ background: 'transparent', border: 'none', color: '#dc3545', cursor: 'pointer', fontWeight: 'bold' }}>X</button>
                   </div>
-                  <p style={{ fontSize: '0.9rem', color: '#666', margin: '0 0 1rem 0' }}>{t.descripcion}</p>
-                  
                   <button onClick={() => setTicketDetalle(t)} style={{ background: 'transparent', border: 'none', color: '#0052cc', cursor: 'pointer', padding: 0, marginBottom: '1rem', textDecoration: 'underline' }}>Ver detalles</button>
                   
+                  {/* BOTÓN HACIA ADELANTE */}
                   <button
                     onClick={() => handleCambiarEstado(t.id, 2)}
                     style={{ width: '100%', padding: '0.5rem', cursor: 'pointer', background: '#0052cc', color: 'white', border: 'none', borderRadius: '4px' }}
@@ -330,20 +329,40 @@ export const BoardPage = () => {
                 <div key={t.id} style={{ background: '#fff', padding: '1rem', marginBottom: '1rem', borderRadius: '4px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <h4 style={{ margin: '0 0 0.5rem 0' }}>{t.titulo}</h4>
-                    <button onClick={() => handleEliminarTicket(t.id)} style={{ background: 'transparent', border: 'none', color: '#dc3545', cursor: 'pointer', fontWeight: 'bold' }} title='Eliminar'>X</button>
+                    <button onClick={() => handleEliminarTicket(t.id)} style={{ background: 'transparent', border: 'none', color: '#dc3545', cursor: 'pointer', fontWeight: 'bold' }}>X</button>
                   </div>
-                  <p style={{ fontSize: '0.9rem', color: '#666', margin: '0 0 1rem 0' }}>{t.descripcion}</p>
-                  
                   <button onClick={() => setTicketDetalle(t)} style={{ background: 'transparent', border: 'none', color: '#0052cc', cursor: 'pointer', padding: 0, marginBottom: '1rem', textDecoration: 'underline' }}>Ver detalles</button>
 
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <button onClick={() => handleCambiarEstado(t.id, 1)} style={{ flex: 1, padding: '0.5rem', cursor: 'pointer' }}>
+                    {/* BOTÓN HACIA ATRÁS */}
+                    <button onClick={() => handleCambiarEstado(t.id, 1)} style={{ flex: 1, padding: '0.5rem', cursor: 'pointer', borderRadius: '4px' }}>
                       &larr; Pausar
                     </button>
+                    {/* BOTÓN HACIA ADELANTE */}
                     <button onClick={() => handleCambiarEstado(t.id, 3)} style={{ flex: 1, padding: '0.5rem', cursor: 'pointer', background: '#00875a', color: 'white', border: 'none', borderRadius: '4px' }}>
                       Finalizar &rarr;
                     </button>
                   </div>
+                </div>
+              ))}
+            </div>
+
+=            <div style={{ flex: 1, minWidth: '300px', background: '#ebecf0', padding: '1rem', borderRadius: '8px', minHeight: '60vh' }}>
+              <h3 style={{ marginTop: 0, color: '#172b4d' }}>Completado</h3>
+              {ticketsPorEstado(3).map((t) => (
+                <div key={t.id} style={{ background: '#fff', padding: '1rem', marginBottom: '1rem', borderRadius: '4px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <h4 style={{ margin: '0 0 0.5rem 0' }}>{t.titulo}</h4>
+                    <button onClick={() => handleEliminarTicket(t.id)} style={{ background: 'transparent', border: 'none', color: '#dc3545', cursor: 'pointer', fontWeight: 'bold' }}>X</button>
+                  </div>
+                  <button onClick={() => setTicketDetalle(t)} style={{ background: 'transparent', border: 'none', color: '#0052cc', cursor: 'pointer', padding: 0, marginBottom: '1rem', textDecoration: 'underline' }}>Ver detalles</button>
+                  
+                  <button
+                    onClick={() => handleCambiarEstado(t.id, 2)}
+                    style={{ width: '100%', padding: '0.5rem', cursor: 'pointer', background: '#ffc107', color: 'black', border: 'none', borderRadius: '4px', fontWeight: 'bold' }}
+                  >
+                    &larr; Reabrir Tarea
+                  </button>
                 </div>
               ))}
             </div>
