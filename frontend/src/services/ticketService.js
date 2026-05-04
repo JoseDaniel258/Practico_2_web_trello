@@ -15,7 +15,6 @@ const create = async (ticketData) => {
   return response.data;
 };
 
-// Declarada correctamente como const y con la ruta completa
 const updateEstado = async (id, nuevoEstado) => {
   const response = await axiosInstance.patch(`/api/tickets/${id}/estado`, { estado: nuevoEstado });
   return response.data;

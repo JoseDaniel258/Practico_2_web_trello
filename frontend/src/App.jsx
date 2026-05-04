@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { RegisterPage } from "./pages/RegisterPage";
-// Importación de las páginas
 import { LoginPage } from "./pages/LoginPage.jsx";
 import { ProjectsPage } from "./pages/ProjectsPage.jsx";
 import { BoardPage } from "./pages/BoardPage.jsx";
